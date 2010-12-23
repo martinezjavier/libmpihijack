@@ -1,0 +1,34 @@
+
+libmpihijack: Function interposition library for MPI primitives
+
+About
+
+================================================================================================
+
+This library uses function interposition to hijack all the MPI primites.
+
+The code only prints a message and looks for the next symbol (possibly the MPI library function).
+
+The code it is intended to use as a skeleton to start a project that needs traps the MPI primitives.
+
+comments, patches, bugfixes: Javier Martinez Canillas <martinez.javier@gmail.com>
+
+
+Compile
+
+================================================================================================
+
+To compile just execute make. The binary mpicc must be in your PATH.
+
+$ make
+
+Usage
+
+================================================================================================
+
+To use the library you have to include libmpihijack.so in your LD_PRELOAD enviroment variable.
+
+You have to include the absolute path to the library. For example:
+
+$ export LD_PRELOAD="/path/to/your/library/libmpihijack.so"
+ 
