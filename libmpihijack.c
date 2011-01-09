@@ -88,4 +88,148 @@ int MPI_Recv( void *buf, int count, MPI_Datatype datatype, int source,
 	return result;
 }
 
+int MPI_Irecv( void *buf, int count, MPI_Datatype datatype, int source,
+               int tag, MPI_Comm comm, MPI_Request *request )
+{
+	static int (*real_MPI_Irecv)(void *, int, MPI_Datatype, int, int, MPI_Comm, MPI_Request *) = NULL;
 
+	int result;
+
+	real_MPI_Irecv = dlsym(RTLD_NEXT, "MPI_Irecv");
+
+	if(!real_MPI_Irecv)
+		return MPI_ERR_INTERN;
+
+	result = real_MPI_Irecv(buf, count, datatype, source, tag, comm, request);
+
+	return result;
+}
+
+int MPI_Sendrecv(void *sendbuf, int sendcount, MPI_Datatype sendtype,
+                 int dest, int sendtag, void *recvbuf, int recvcount,
+                 MPI_Datatype recvtype, int source, int recvtag,
+                 MPI_Comm comm,  MPI_Status *status)
+{
+
+	static int (*real_MPI_Sendrecv)(void *, int, MPI_Datatype,
+					int, int, void *, int,
+					MPI_Datatype, int, int,
+					MPI_Comm,  MPI_Status *) = NULL;
+
+	int result;
+
+	real_MPI_Sendrecv = dlsym(RTLD_NEXT, "MPI_Sendrecv");
+
+	if(!real_MPI_Sendrecv)
+		return MPI_ERR_INTERN;
+
+	result = real_MPI_Sendrecv(sendbuf, sendcount, sendtype,
+				   dest, sendtag, recvbuf, recvcount,
+				   recvtype, source, recvtag,
+				   comm, status);
+	return result;
+}
+
+int MPI_Wait(MPI_Request *request, MPI_Status *status)
+{
+	static int (*real_MPI_Wait)(MPI_Request *, MPI_Status *) = NULL;
+
+	int result;
+
+	real_MPI_Wait = dlsym(RTLD_NEXT, "MPI_Wait");
+
+	if(!real_MPI_Wait)
+		return MPI_ERR_INTERN;
+
+	result = real_MPI_Wait(request, status);
+
+	return result;
+}
+
+int MPI_Waitall(int count, MPI_Request *requests, MPI_Status *statuses)
+{
+	static int (*real_MPI_Waitall)(int, MPI_Request *, MPI_Status *) = NULL;
+
+	int result;
+
+	real_MPI_Waitall = dlsym(RTLD_NEXT, "MPI_Wait");
+
+	if(!real_MPI_Waitall)
+		return MPI_ERR_INTERN;
+
+	result = real_MPI_Waitall(count, requests, statuses);
+
+	return result;
+}
+
+
+int MPI_Bcast(void *buffer, int count, MPI_Datatype datatype,
+	      int root, MPI_Comm comm)
+{
+	static int (*real_MPI_Bcast)(void *, int, MPI_Datatype,
+				     int, MPI_Comm) = NULL;
+
+	int result;
+
+	real_MPI_Bcast = dlsym(RTLD_NEXT, "MPI_Bcast");
+
+	if(!real_MPI_Bcast)
+		return MPI_ERR_INTERN;
+
+	result = real_MPI_Bcast(buffer, count, datatype, root, comm);
+
+	return result;
+}
+
+int MPI_Barrier(MPI_Comm comm)
+{
+	static int (*real_MPI_Barrier)(MPI_Comm) = NULL;
+
+	int result;
+
+	real_MPI_Barrier = dlsym(RTLD_NEXT, "MPI_Barrier");
+
+	if(!real_MPI_Barrier)
+		return MPI_ERR_INTERN;
+
+	result = real_MPI_Barrier(comm);
+
+	return result;
+}
+
+int MPI_Allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype,
+                  void *recvbuf, int recvcount, MPI_Datatype recvtype,
+                  MPI_Comm comm)
+{
+	static int (*real_MPI_Allgather)(void *, int, MPI_Datatype,
+					 void *, int, MPI_Datatype, MPI_Comm) = NULL;
+
+	int result;
+
+	real_MPI_Allgather = dlsym(RTLD_NEXT, "MPI_Allgather");
+
+	if(!real_MPI_Allgather)
+		return MPI_ERR_INTERN;
+
+	result = real_MPI_Allgather(sendbuf, sendcount, sendtype, recvbuf,
+				    recvcount, recvtype, comm);
+	return result;
+}
+
+int MPI_Allreduce(void *sendbuf, void *recvbuf, int count,
+                  MPI_Datatype datatype, MPI_Op op, MPI_Comm comm)
+{
+	static int (*real_MPI_Allreduce)(void *, void *, int, MPI_Datatype,
+					 MPI_Op, MPI_Comm) = NULL;
+
+	int result;
+
+	real_MPI_Allreduce = dlsym(RTLD_NEXT, "MPI_Allreduce");
+
+	if(!real_MPI_Allreduce)
+		return MPI_ERR_INTERN;
+
+	result = real_MPI_Allreduce(sendbuf, recvbuf, count, datatype, op, comm);
+
+	return result;
+}
